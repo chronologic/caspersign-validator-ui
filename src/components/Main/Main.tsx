@@ -1,7 +1,8 @@
 import React from "react";
+import Details from "./Details";
 
 function Main() {
-  return <div>Main content</div>;
+  return <Details />;
 }
 
 export default Main;

@@ -1,16 +1,33 @@
 import React from "react";
-import { Layout, Row, Col, Space } from "antd";
+import styled from "styled-components";
+import { Layout, Typography, Divider } from "antd";
+
+const { Text, Link } = Typography;
 
 function Footer() {
   return (
     <Layout.Footer>
-      <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-        <Col className="gutter-row" span={6}>
-          <Space direction="vertical" />
-        </Col>
-      </Row>
+      <FooterContent>
+        <Divider />
+        <Text>
+          Powered by{" "}
+          <Link href="https://casperlabs.io/" target="_blank">
+            CasperLabs
+          </Link>
+        </Text>
+      </FooterContent>
     </Layout.Footer>
   );
 }
+
+const FooterContent = styled.div`
+  width: 100%;
+  max-width: 1170px;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+`;
 
 export default Footer;
