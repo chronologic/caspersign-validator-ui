@@ -40,7 +40,7 @@ const Main = styled.div`
 `;
 
 const HeaderTitle = styled.div`
-  margin: 1rem 0;
+  margin: 64px 0 12px;
 `;
 
 export default Details;
