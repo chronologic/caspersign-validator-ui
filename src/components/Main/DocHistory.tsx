@@ -61,7 +61,7 @@ const data = [
 function DocHistory() {
   return (
     <Layout>
-      <Card title="Document History">
+      <Card title="History">
         <List
           itemLayout="horizontal"
           dataSource={data}

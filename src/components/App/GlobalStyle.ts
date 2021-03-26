@@ -79,61 +79,37 @@ const Style = createGlobalStyle`
     stroke: none
   }
 
-  .resp-sharing-button--twitter {
-    background-color: #55acee
-  }
-
-  .resp-sharing-button--twitter:hover {
-    background-color: #2795e9
-  }
-
   .resp-sharing-button--facebook {
-    background-color: #3b5998
-  }
-
-  .resp-sharing-button--facebook:hover {
-    background-color: #2d4373
-  }
-
-  .resp-sharing-button--linkedin {
-    background-color: #0077b5
-  }
-
-  .resp-sharing-button--linkedin:hover {
-    background-color: #046293
-  }
-
-  .resp-sharing-button--facebook {
-    background-color: #3b5998;
-    border-color: #3b5998;
+    background-color: #6e88c9;
+    border-color: #6e88c9;
   }
 
   .resp-sharing-button--facebook:hover,
   .resp-sharing-button--facebook:active {
-    background-color: #2d4373;
-    border-color: #2d4373;
+    background-color: #536697;
+    border-color: #536697;
   }
 
   .resp-sharing-button--twitter {
-    background-color: #55acee;
-    border-color: #55acee;
+    background-color: #60c3f1;
+    border-color: #60c3f1;
   }
 
   .resp-sharing-button--twitter:hover,
   .resp-sharing-button--twitter:active {
-    background-color: #2795e9;
-    border-color: #2795e9;
+    background-color: #4892b5;
+    border-color: #4892b5;
   }
 
   .resp-sharing-button--linkedin {
-    background-color: #0077b5;
-    border-color: #0077b5;
+    background-color: #569ad6;
+    border-color: #569ad6;
   }
 
   .resp-sharing-button--linkedin:hover,
   .resp-sharing-button--linkedin:active {
-    background-color: #046293;
-    border-color: #046293;
+    background-color: #4173a1;
+    border-color: #4173a1;
   }
 
 `;

@@ -8,7 +8,7 @@ import DocTitle from "./DocTitle";
 
 const { Title } = Typography;
 
-function Details() {
+function DetailsPage() {
   return (
     <Layout>
       <Main>
@@ -43,4 +43,4 @@ const HeaderTitle = styled.div`
   margin: 64px 0 12px;
 `;
 
-export default Details;
+export default DetailsPage;
