@@ -1,10 +1,8 @@
 import React from "react";
-
-import DetailsPage from "./DetailsPage";
 import UploadPage from "./UploadPage";
 
 function Main() {
-  return <DetailsPage />;
+  return <UploadPage />;
 }
 
 export default Main;

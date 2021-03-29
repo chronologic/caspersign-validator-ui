@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 
-// import { skyblue, cerulean } from "../colors";
+import { skyblue, cerulean } from "../colors";
 
 const Style = createGlobalStyle`
   * {
@@ -111,6 +111,14 @@ const Style = createGlobalStyle`
     background-color: #4173a1;
     border-color: #4173a1;
   }
+
+  .ant-upload.ant-upload-drag p.ant-upload-drag-icon .anticon {
+    color: ${cerulean};
+  }
+
+  .ant-upload.ant-upload-drag:not(.ant-upload-disabled):hover {
+    border-color: ${cerulean};
+  }   
 
 `;
 
