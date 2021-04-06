@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
+import DetailsPage from "./DetailsPage";
 import UploadPage from "./UploadPage";
 
 function Main() {
-  return <UploadPage />;
+  const [uploadDone, setUploadDone] = useState(false);
+
+  const handleUploadDone = useCallback(() => {
+    setUploadDone(true);
+  }, []);
+
+  return uploadDone ? (
+    <DetailsPage />
+  ) : (
+    <UploadPage onUploadDone={handleUploadDone} />
+  );
 }
 
 export default Main;

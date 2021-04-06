@@ -1,27 +1,30 @@
-import React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 import { Layout, Typography, Upload, Card, message } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
+import { UploadChangeParam } from "antd/lib/upload";
+import { cerulean } from "../colors";
 
 const { Title, Text } = Typography;
 const { Dragger } = Upload;
 
-const handleChange = (info: {
-  file: { name?: any; status?: any };
-  fileList: any;
-}) => {
-  const { status } = info.file;
-  if (status !== "uploading") {
-    console.log(info.file);
-  }
-  if (status === "Done") {
-    message.success(`${info.file.name} uploaded successfully.`);
-  } else if (status === "Error") {
-    message.error(`${info.file.name} upload failed.`);
-  }
-};
-
-function UploadPage() {
+function UploadPage({ onUploadDone }: { onUploadDone: () => void }) {
+  const handleChange = useCallback(
+    (info: UploadChangeParam) => {
+      console.log(info);
+      const { status } = info.file;
+      if (status !== "uploading") {
+        console.log(info.file);
+      }
+      if (status === "done") {
+        message.success(`${info.file.name} uploaded successfully.`);
+        onUploadDone();
+      } else if (status === "error") {
+        message.error(`${info.file.name} upload failed.`);
+      }
+    },
+    [onUploadDone]
+  );
   return (
     <Layout>
       <Main>
@@ -39,7 +42,20 @@ function UploadPage() {
             name="file"
             accept="application/pdf"
             showUploadList={false}
-            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            progress={{
+              strokeColor: {
+                "0%": `${cerulean}`,
+                "100%": "success",
+              },
+              strokeWidth: 2,
+              showInfo: true,
+            }}
+            action=""
+            customRequest={(options) => {
+              if (options.onSuccess) {
+                options.onSuccess(options.file, new XMLHttpRequest());
+              }
+            }}
             onChange={handleChange}
           >
             <p className="ant-upload-drag-icon">
