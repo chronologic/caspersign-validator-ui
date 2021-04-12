@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Layout, Typography, Upload, Card, message } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
 import { UploadChangeParam } from "antd/lib/upload";
-import { cerulean } from "../colors";
+import { cerulean, skyblue } from "../colors";
 
 const { Title, Text } = Typography;
 const { Dragger } = Upload;
@@ -41,20 +41,27 @@ function UploadPage({ onUploadDone }: { onUploadDone: () => void }) {
           <Dragger
             name="file"
             accept="application/pdf"
-            showUploadList={false}
+            showUploadList
             progress={{
               strokeColor: {
                 "0%": `${cerulean}`,
-                "100%": "success",
+                "100%": `${skyblue}`,
               },
               strokeWidth: 2,
               showInfo: true,
             }}
             action=""
             customRequest={(options) => {
-              if (options.onSuccess) {
-                options.onSuccess(options.file, new XMLHttpRequest());
-              }
+              let percent = 1;
+              const interval = setInterval(() => {
+                // eslint-disable-next-line no-plusplus
+                options.onProgress({ percent: percent++ } as any);
+
+                if (percent === 100) {
+                  options.onSuccess(options.file, new XMLHttpRequest());
+                  clearInterval(interval);
+                }
+              }, 10);
             }}
             onChange={handleChange}
           >

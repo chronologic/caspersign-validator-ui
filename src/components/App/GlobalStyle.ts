@@ -113,11 +113,11 @@ const Style = createGlobalStyle`
   }
 
   .ant-upload.ant-upload-drag p.ant-upload-drag-icon .anticon {
-    color: ${cerulean};
+    color: ${skyblue};
   }
 
   .ant-upload.ant-upload-drag:not(.ant-upload-disabled):hover {
-    border-color: ${cerulean};
+    border-color: ${skyblue};
   }   
 
 `;
