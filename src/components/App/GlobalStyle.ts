@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 
-import { skyblue, cerulean } from "../colors";
+import { skyblue } from "../colors";
 
 const Style = createGlobalStyle`
   * {
@@ -119,6 +119,11 @@ const Style = createGlobalStyle`
   .ant-upload.ant-upload-drag:not(.ant-upload-disabled):hover {
     border-color: ${skyblue};
   }   
+
+  .spinner {
+    margin-top: 24px;
+    text-align: center;
+  }
 
 `;
 

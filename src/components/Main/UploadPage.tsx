@@ -1,25 +1,30 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import styled from "styled-components";
-import { Layout, Typography, Upload, Card, message } from "antd";
-import { InboxOutlined } from "@ant-design/icons";
+import { Spin, Layout, Typography, Upload, Card, message } from "antd";
+import { InboxOutlined, LoadingOutlined } from "@ant-design/icons";
 import { UploadChangeParam } from "antd/lib/upload";
-import { cerulean, skyblue } from "../colors";
+import { skyblue } from "../colors";
 
 const { Title, Text } = Typography;
 const { Dragger } = Upload;
+const antIcon = (
+  <LoadingOutlined style={{ fontSize: 24, color: `${skyblue}` }} spin />
+);
 
 function UploadPage({ onUploadDone }: { onUploadDone: () => void }) {
+  const [loading, setLoading] = useState(false);
   const handleChange = useCallback(
     (info: UploadChangeParam) => {
-      console.log(info);
       const { status } = info.file;
       if (status !== "uploading") {
-        console.log(info.file);
+        setLoading(true);
       }
       if (status === "done") {
+        setLoading(false);
         message.success(`${info.file.name} uploaded successfully.`);
         onUploadDone();
       } else if (status === "error") {
+        setLoading(false);
         message.error(`${info.file.name} upload failed.`);
       }
     },
@@ -42,26 +47,11 @@ function UploadPage({ onUploadDone }: { onUploadDone: () => void }) {
             name="file"
             accept="application/pdf"
             showUploadList
-            progress={{
-              strokeColor: {
-                "0%": `${cerulean}`,
-                "100%": `${skyblue}`,
-              },
-              strokeWidth: 2,
-              showInfo: true,
-            }}
             action=""
             customRequest={(options) => {
-              let percent = 1;
-              const interval = setInterval(() => {
-                // eslint-disable-next-line no-plusplus
-                options.onProgress({ percent: percent++ } as any);
-
-                if (percent === 100) {
-                  options.onSuccess(options.file, new XMLHttpRequest());
-                  clearInterval(interval);
-                }
-              }, 10);
+              if (options.onSuccess) {
+                options.onSuccess(options.file, new XMLHttpRequest());
+              }
             }}
             onChange={handleChange}
           >
@@ -74,6 +64,9 @@ function UploadPage({ onUploadDone }: { onUploadDone: () => void }) {
               verification
             </p>
           </Dragger>
+          <div className="spinner">
+            {loading && <Spin indicator={antIcon} />}
+          </div>
         </Card>
       </Main>
     </Layout>
