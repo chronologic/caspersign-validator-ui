@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 
-// import { skyblue, cerulean } from "../colors";
+import { skyblue } from "../colors";
 
 const Style = createGlobalStyle`
   * {
@@ -110,6 +110,19 @@ const Style = createGlobalStyle`
   .resp-sharing-button--linkedin:active {
     background-color: #4173a1;
     border-color: #4173a1;
+  }
+
+  .ant-upload.ant-upload-drag p.ant-upload-drag-icon .anticon {
+    color: ${skyblue};
+  }
+
+  .ant-upload.ant-upload-drag:not(.ant-upload-disabled):hover {
+    border-color: ${skyblue};
+  }   
+
+  .spinner {
+    margin-top: 24px;
+    text-align: center;
   }
 
 `;
