@@ -16,15 +16,11 @@ function UploadPage({ onUploadDone }: { onUploadDone: () => void }) {
   const handleChange = useCallback(
     (info: UploadChangeParam) => {
       const { status } = info.file;
-      if (status !== "uploading") {
-        setLoading(true);
-      }
+      setLoading(status === "uploading");
       if (status === "done") {
-        setLoading(false);
         message.success(`${info.file.name} uploaded successfully.`);
         onUploadDone();
       } else if (status === "error") {
-        setLoading(false);
         message.error(`${info.file.name} upload failed.`);
       }
     },
