@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
-import { Spin, Layout, Typography, Upload, Card, message } from "antd";
+import { Spin, Layout, Typography, Upload, Card } from "antd";
 import { InboxOutlined, LoadingOutlined } from "@ant-design/icons";
-import { UploadChangeParam } from "antd/lib/upload";
+
 import { skyblue } from "../colors";
 
 const { Title, Text } = Typography;
@@ -11,21 +11,44 @@ const antIcon = (
   <LoadingOutlined style={{ fontSize: 24, color: `${skyblue}` }} spin />
 );
 
-function UploadPage({ onUploadDone }: { onUploadDone: () => void }) {
+interface IProps {
+  onUploadDone: (hash: string, filename: string) => void;
+}
+
+function UploadPage({ onUploadDone }: IProps) {
   const [loading, setLoading] = useState(false);
-  const handleChange = useCallback(
-    (info: UploadChangeParam) => {
-      const { status } = info.file;
-      setLoading(status === "uploading");
-      if (status === "done") {
-        message.success(`${info.file.name} uploaded successfully.`);
-        onUploadDone();
-      } else if (status === "error") {
-        message.error(`${info.file.name} upload failed.`);
+  // const handleChange = useCallback(
+  //   (info: UploadChangeParam) => {
+  //     const { status } = info.file;
+  //     setLoading(status === "uploading");
+  //     if (status === "done") {
+  //       message.success(`${info.file.name} uploaded successfully.`);
+  //       onUploadDone();
+  //     } else if (status === "error") {
+  //       message.error(`${info.file.name} upload failed.`);
+  //     }
+  //   },
+  //   [onUploadDone]
+  // );
+  const handleCustomRequest = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async ({ file, onSuccess, onError }: any) => {
+      setLoading(true);
+      try {
+        const hash = await sha256(file);
+        onSuccess(hash);
+        onUploadDone(hash, (file as File).name);
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error(e);
+        onError(e);
+      } finally {
+        setLoading(false);
       }
     },
     [onUploadDone]
   );
+
   return (
     <Layout>
       <Main>
@@ -44,12 +67,8 @@ function UploadPage({ onUploadDone }: { onUploadDone: () => void }) {
             accept="application/pdf"
             showUploadList
             action=""
-            customRequest={(options) => {
-              if (options.onSuccess) {
-                options.onSuccess(options.file, new XMLHttpRequest());
-              }
-            }}
-            onChange={handleChange}
+            customRequest={handleCustomRequest}
+            // onChange={handleChange}
           >
             <p className="ant-upload-drag-icon">
               <InboxOutlined />
@@ -81,5 +100,29 @@ const Main = styled.div`
 const HeaderTitle = styled.div`
   margin: 64px 0 12px;
 `;
+
+async function sha256(file: File): Promise<string> {
+  const buffer = await file2Buffer(file);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", buffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashHex = hashArray
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+
+  return hashHex;
+}
+
+async function file2Buffer(file: File): Promise<ArrayBuffer> {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    const readFile = () => {
+      const buffer = reader.result;
+      resolve(buffer as ArrayBuffer);
+    };
+
+    reader.addEventListener("load", readFile);
+    reader.readAsArrayBuffer(file);
+  });
+}
 
 export default UploadPage;

@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { Layout, Row, Col, Typography } from "antd";
+
+import { DocumentDetails } from "../../types";
 import DocHistory from "./DocHistory";
 import DocSigners from "./DocSigners";
 import DocBlockchain from "./DocBlockchain";
@@ -8,7 +10,12 @@ import DocTitle from "./DocTitle";
 
 const { Title } = Typography;
 
-function DetailsPage() {
+interface IProps {
+  valid: boolean;
+  doc: DocumentDetails;
+}
+
+function DetailsPage({ valid, doc }: IProps) {
   return (
     <Layout>
       <Main>

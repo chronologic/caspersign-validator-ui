@@ -1,9 +1,18 @@
 import axios from "axios";
 
 import { API_URL } from "../env";
+import { DocumentDetails } from "../types";
 
-const api = axios.create({
+const client = axios.create({
   baseURL: API_URL,
 });
+
+const api = {
+  async validate(hash: string): Promise<DocumentDetails> {
+    const { data } = await client.get(`/validate?hash=${hash}`);
+
+    return data;
+  },
+};
 
 export default api;
