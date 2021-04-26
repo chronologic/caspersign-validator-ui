@@ -1,74 +1,78 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Layout, Typography, Card, Avatar, List } from "antd";
+import { getGravatarUrl } from "react-awesome-gravatar";
 
-const { Text, Link } = Typography;
+import { DocumentHistory } from "../../types";
+import { formatDate } from "../../utils";
+import CasperTx from "./CasperTx";
 
-const data = [
-  {
-    title: "Clifford Sarkin created the document",
-    avatar:
-      "https://media-exp1.licdn.com/dms/image/C5603AQHan8MKDDbG8w/profile-displayphoto-shrink_400_400/0/1562011727476?e=1622073600&v=beta&t=r6Rq9MeuNbOAdzT5a-9pbbD3GzEnjhneg7LSv1Pdzj4",
-    description: (
-      <Text type="secondary">
-        Tx Hash:{" "}
-        <Link href="https://casperlabs.io/" target="_blank">
-          0cd30fE29782Bb093e9986CB7f287bDA4791d05f73b
-        </Link>
-      </Text>
-    ),
-  },
-  {
-    title: "Clifford Sarkin signed the document with HelloSign",
-    avatar:
-      "https://media-exp1.licdn.com/dms/image/C5603AQHan8MKDDbG8w/profile-displayphoto-shrink_400_400/0/1562011727476?e=1622073600&v=beta&t=r6Rq9MeuNbOAdzT5a-9pbbD3GzEnjhneg7LSv1Pdzj4",
-    description: (
-      <Text type="secondary">
-        Tx Hash:{" "}
-        <Link href="https://casperlabs.io/" target="_blank">
-          0cd30fE29782Bb093e9986CB7f287bDA4791d05f73b
-        </Link>
-      </Text>
-    ),
-  },
-  {
-    title: "Clifford Sarkin signed the document with CasperSign",
-    avatar:
-      "https://media-exp1.licdn.com/dms/image/C5603AQHan8MKDDbG8w/profile-displayphoto-shrink_400_400/0/1562011727476?e=1622073600&v=beta&t=r6Rq9MeuNbOAdzT5a-9pbbD3GzEnjhneg7LSv1Pdzj4",
-    description: (
-      <Text type="secondary">
-        Tx Hash:{" "}
-        <Link href="https://casperlabs.io/" target="_blank">
-          0cd30fE29782Bb093e9986CB7f287bDA4791d05f73b
-        </Link>
-      </Text>
-    ),
-  },
-  {
-    title: "Mrinal Manohar signed the document with HelloSign",
-    avatar:
-      "https://media-exp1.licdn.com/dms/image/C4D03AQHVQf5edhvWUw/profile-displayphoto-shrink_400_400/0/1554754824709?e=1622073600&v=beta&t=XEjTfTGHW8njxWw5jvoHquvYm110IdDiEkD6_8tXjWA",
-    description: (
-      <Text type="secondary">
-        Tx Hash:{" "}
-        <Link href="https://casperlabs.io/" target="_blank">
-          0cd30fE29782Bb093e9986CB7f287bDA4791d05f73b
-        </Link>
-      </Text>
-    ),
-  },
-];
+const { Text } = Typography;
 
-function DocHistory() {
+interface IHistoryRow {
+  title: string;
+  email: string;
+  description: React.ReactNode;
+}
+
+interface IProps {
+  history: DocumentHistory[];
+}
+
+function DocHistory({ history }: IProps) {
+  const items: IHistoryRow[] = useMemo(() => {
+    return history.map((h) => {
+      const description = [];
+
+      if (h.timestamp) {
+        description.push(
+          <Text key="timestamp" type="secondary">
+            Timestamp: ${formatDate(h.timestamp)}
+          </Text>
+        );
+      }
+      if (h.ip) {
+        description.push(
+          <Text key="ip" type="secondary">
+            IP: ${h.ip}
+          </Text>
+        );
+      }
+      if (h.txHash) {
+        description.push(
+          <Text key="tx" type="secondary">
+            Tx Hash: <CasperTx txHash={h.txHash} />
+          </Text>
+        );
+      }
+
+      const item: IHistoryRow = {
+        title: h.description,
+        email: h.email,
+        description,
+      };
+
+      return item;
+    });
+  }, [history]);
+
   return (
     <Layout>
       <Card title="History">
         <List
           itemLayout="horizontal"
-          dataSource={data}
+          dataSource={items}
           renderItem={(item) => (
             <List.Item>
               <List.Item.Meta
-                avatar={<Avatar size="large" src={item.avatar} />}
+                avatar={
+                  <Avatar
+                    size="large"
+                    src={getGravatarUrl(item.email, {
+                      default: "mp",
+                      size: 50,
+                    })}
+                  />
+                }
                 title={item.title}
                 description={item.description}
               />

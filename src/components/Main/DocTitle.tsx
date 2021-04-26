@@ -5,7 +5,13 @@ import pdf from "../../img/pdf.svg";
 
 const { Title, Text } = Typography;
 
-function DocTitle() {
+interface IProps {
+  filename: string;
+  createdBy: string;
+  documentUid: string;
+}
+
+function DocTitle({ filename, createdBy, documentUid }: IProps) {
   return (
     <Layout>
       <Card>
@@ -14,14 +20,10 @@ function DocTitle() {
             <img src={pdf} alt="pdf" />
           </CircleIcon>
           <div>
-            <Title level={4}>
-              Example_HS_signed_completed_Referral_Agreement-pages-deleted
-            </Title>
-            <Text type="secondary">Created By: Clifford Sarkin</Text>
+            <Title level={4}>{filename}</Title>
+            <Text type="secondary">Created By: {createdBy}</Text>
             <Divider type="vertical" />
-            <Text type="secondary">
-              Document ID: 4250a5b3-c0be-4cac-a425-d59c0ce4e288
-            </Text>
+            <Text type="secondary">Document ID: {documentUid}</Text>
           </div>
         </DocHeader>
       </Card>

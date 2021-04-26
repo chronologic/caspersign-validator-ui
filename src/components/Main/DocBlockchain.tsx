@@ -1,55 +1,96 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Layout, Typography, Card, Tag, List } from "antd";
-import { CheckCircleOutlined } from "@ant-design/icons";
+import { CheckCircleOutlined, WarningOutlined } from "@ant-design/icons";
 
-const { Text, Link } = Typography;
+import { SignatureDetails } from "../../types";
+import { formatDate } from "../../utils";
 
-const data = [
-  {
-    title: "Original Document Hash:",
-    description: (
-      <Link href="https://casperlabs.io/" target="_blank">
-        0cd30fE29782Bb093e9986CB7f287bDA4791d05f73b
-      </Link>
-    ),
-  },
-  {
-    title: "Blockchain Hash:",
-    description: (
-      <Link href="https://casperlabs.io/" target="_blank">
-        0cd30fE29782Bb093e9986CB7f287bDA4791d05f73b
-      </Link>
-    ),
-  },
-  {
-    title: "Signed Document Hash:",
-    description: (
-      <Link href="https://casperlabs.io/" target="_blank">
-        0cd30fE29782Bb093e9986CB7f287bDA4791d05f73b
-      </Link>
-    ),
-  },
-];
+const { Text } = Typography;
 
-function DocBlockchain() {
+interface IRow {
+  title: string;
+  description: React.ReactNode;
+}
+
+interface IProps {
+  hashes: string[];
+  signatures: SignatureDetails[];
+}
+
+function DocBlockchain({ hashes, signatures }: IProps) {
+  const lastBlockchainSignature = useMemo(() => {
+    const lastHistoryItem = signatures
+      .filter((s) => !!s.txHash)
+      .sort((a, b) => a.signedAt.localeCompare(b.signedAt))[0];
+
+    return lastHistoryItem;
+  }, [signatures]);
+  const firstDocHash = useMemo(() => {
+    return hashes[0] || "";
+  }, [hashes]);
+  const lastDocHash = useMemo(() => {
+    const last = hashes.reverse()[0] || "";
+    if (firstDocHash === last) {
+      return "";
+    }
+    return last;
+  }, [hashes, firstDocHash]);
+  const verifiedTag = useMemo(() => {
+    if (lastBlockchainSignature) {
+      return (
+        <Tag icon={<CheckCircleOutlined />} color="success">
+          BLOCKCHAIN VERIFIED
+        </Tag>
+      );
+    }
+    return (
+      <Tag icon={<WarningOutlined />} color="orange">
+        AWAITING BLOCKCHAIN VERIFICATION
+      </Tag>
+    );
+  }, [lastBlockchainSignature]);
+  const footer = useMemo(() => {
+    if (lastBlockchainSignature) {
+      return (
+        <Text type="secondary">
+          Timestamped on Blockchain:{" "}
+          {formatDate(lastBlockchainSignature.signedAt)}
+        </Text>
+      );
+    }
+    return null;
+  }, [lastBlockchainSignature]);
+
+  const items: IRow[] = useMemo(() => {
+    const rows: IRow[] = [];
+    if (firstDocHash) {
+      rows.push({
+        title: "Original Document Hash:",
+        description: firstDocHash,
+      });
+    }
+    if (lastDocHash) {
+      rows.push({
+        title: "Signed Document Hash:",
+        description: lastDocHash,
+      });
+    }
+    if (lastBlockchainSignature) {
+      rows.push({
+        title: "Blockchain Hash:",
+        description: lastBlockchainSignature.txHash,
+      });
+    }
+
+    return rows;
+  }, [lastBlockchainSignature, firstDocHash, lastDocHash]);
+
   return (
     <Layout>
-      <Card
-        title="Blockchain"
-        extra={
-          <Tag icon={<CheckCircleOutlined />} color="success">
-            BLOCKCHAIN VERIFIED
-          </Tag>
-        }
-      >
+      <Card title="Blockchain" extra={verifiedTag}>
         <List
           itemLayout="horizontal"
-          footer={
-            <Text type="secondary">
-              Timestamped on Blockchain: 15-MAR-2021 11:40 AM CEST
-            </Text>
-          }
-          dataSource={data}
+          dataSource={items}
           renderItem={(item) => (
             <List.Item>
               <List.Item.Meta
@@ -58,6 +99,7 @@ function DocBlockchain() {
               />
             </List.Item>
           )}
+          footer={footer}
         />
       </Card>
     </Layout>

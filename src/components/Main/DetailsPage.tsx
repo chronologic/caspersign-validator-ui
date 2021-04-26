@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import styled from "styled-components";
 import { Layout, Row, Col, Typography } from "antd";
 
@@ -11,25 +11,41 @@ import DocTitle from "./DocTitle";
 const { Title } = Typography;
 
 interface IProps {
-  valid: boolean;
+  filename: string;
   doc: DocumentDetails;
 }
 
-function DetailsPage({ valid, doc }: IProps) {
+function DetailsPage({ filename, doc }: IProps) {
+  const createdBy = useMemo(() => {
+    let creator = doc?.createdByEmail;
+    // eslint-disable-next-line no-restricted-syntax
+    for (const sig of doc?.signatures || []) {
+      if (sig.email === creator || sig.hs.email === creator) {
+        creator = sig.hs.name || sig.name || creator;
+        break;
+      }
+    }
+    return creator;
+  }, [doc]);
+
   return (
     <Layout>
       <Main>
         <HeaderTitle>
           <Title level={4}>Document Details</Title>
         </HeaderTitle>
-        <DocTitle />
+        <DocTitle
+          filename={filename}
+          createdBy={createdBy}
+          documentUid={doc.documentUid}
+        />
         <Row gutter={24}>
           <Col flex={3}>
-            <DocSigners />
-            <DocHistory />
+            <DocSigners signatures={doc.signatures} />
+            <DocHistory history={doc.history} />
           </Col>
           <Col flex={2}>
-            <DocBlockchain />
+            <DocBlockchain hashes={doc.hashes} signatures={doc.signatures} />
           </Col>
         </Row>
       </Main>

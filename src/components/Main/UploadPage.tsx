@@ -12,24 +12,12 @@ const antIcon = (
 );
 
 interface IProps {
+  validating: boolean;
   onUploadDone: (hash: string, filename: string) => void;
 }
 
-function UploadPage({ onUploadDone }: IProps) {
+function UploadPage({ validating, onUploadDone }: IProps) {
   const [loading, setLoading] = useState(false);
-  // const handleChange = useCallback(
-  //   (info: UploadChangeParam) => {
-  //     const { status } = info.file;
-  //     setLoading(status === "uploading");
-  //     if (status === "done") {
-  //       message.success(`${info.file.name} uploaded successfully.`);
-  //       onUploadDone();
-  //     } else if (status === "error") {
-  //       message.error(`${info.file.name} upload failed.`);
-  //     }
-  //   },
-  //   [onUploadDone]
-  // );
   const handleCustomRequest = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async ({ file, onSuccess, onError }: any) => {
@@ -67,20 +55,34 @@ function UploadPage({ onUploadDone }: IProps) {
             accept="application/pdf"
             showUploadList
             action=""
+            disabled={loading || validating}
             customRequest={handleCustomRequest}
+            multiple={false}
             // onChange={handleChange}
           >
             <p className="ant-upload-drag-icon">
               <InboxOutlined />
             </p>
-            <p className="ant-upload-text">Upload a Signed Document Here</p>
-            <p className="ant-upload-hint">
+            <p className="ant-upload-text">
+              {validating ? "Validating..." : "Upload a Signed Document Here"}
+            </p>
+            <p
+              className="ant-upload-hint"
+              style={{
+                visibility: validating ? "hidden" : "visible",
+              }}
+            >
               Upload or drop your signed document here in the dropzone for
               verification
             </p>
           </Dragger>
           <div className="spinner">
-            {loading && <Spin indicator={antIcon} />}
+            <Spin
+              indicator={antIcon}
+              style={{
+                visibility: loading || validating ? "visible" : "hidden",
+              }}
+            />
           </div>
         </Card>
       </Main>

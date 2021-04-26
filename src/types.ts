@@ -39,6 +39,7 @@ export interface DocumentHistory {
   type: DocumentHistoryType;
   timestamp?: string;
   ip?: string;
+  email: string;
   description: string;
   txHash?: string;
 }
@@ -51,7 +52,7 @@ export interface SignatureSummary {
   completed: boolean;
   payload?: string;
   txHash: string;
-  createdAt: string;
+  signedAt: string;
 }
 
 export interface SignatureDetails extends SignatureSummary {
