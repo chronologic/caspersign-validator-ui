@@ -9,7 +9,7 @@ const client = axios.create({
 
 const api = {
   async validate(hash: string): Promise<DocumentDetails> {
-    const { data } = await client.get(`/validate?hash=${hash}`);
+    const { data } = await client.get(`/documents/${hash}/validate`);
 
     return data;
   },
