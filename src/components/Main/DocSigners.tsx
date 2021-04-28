@@ -23,6 +23,7 @@ function DocSigners({ signatures }: IProps) {
 
     return (
       <Timeline.Item
+        key={sig.signatureUid}
         dot={
           isSignedOnChain ? undefined : (
             <ClockCircleOutlined className="timeline-clock-icon" />
@@ -37,6 +38,7 @@ function DocSigners({ signatures }: IProps) {
                 <img src={hellogreen} className="tag-icon" alt="hellogreen" />
               }
               color="success"
+              title="Signed with HelloSign"
             >
               SIGNED
             </Tag>
@@ -46,6 +48,7 @@ function DocSigners({ signatures }: IProps) {
                 <img src={helloblack} className="tag-icon" alt="helloblack" />
               }
               color="default"
+              title="Awaiting HelloSign signature"
             >
               AWAITING SIGN
             </Tag>
@@ -56,6 +59,7 @@ function DocSigners({ signatures }: IProps) {
                 <img src={caspergreen} className="tag-icon" alt="caspergreen" />
               }
               color="success"
+              title="Signed on the Casper blockchain"
             >
               SIGNED
             </Tag>
@@ -65,6 +69,7 @@ function DocSigners({ signatures }: IProps) {
                 <img src={casperblack} className="tag-icon" alt="casperblack" />
               }
               color="default"
+              title="Awaiting signature on the Casper blockchain"
             >
               AWAITING SIGN
             </Tag>

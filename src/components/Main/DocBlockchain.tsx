@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { Layout, Typography, Card, Tag, List } from "antd";
 import { CheckCircleOutlined, WarningOutlined } from "@ant-design/icons";
+import styled from "styled-components";
 
 import { SignatureDetails } from "../../types";
 import { formatDate } from "../../utils";
@@ -88,22 +89,33 @@ function DocBlockchain({ hashes, signatures }: IProps) {
   return (
     <Layout>
       <Card title="Blockchain" extra={verifiedTag}>
-        <List
-          itemLayout="horizontal"
-          dataSource={items}
-          renderItem={(item) => (
-            <List.Item>
-              <List.Item.Meta
-                title={item.title}
-                description={item.description}
-              />
-            </List.Item>
-          )}
-          footer={footer}
-        />
+        <Content>
+          <List
+            itemLayout="horizontal"
+            dataSource={items}
+            renderItem={(item) => (
+              <List.Item>
+                <List.Item.Meta
+                  title={item.title}
+                  description={item.description}
+                />
+              </List.Item>
+            )}
+            footer={footer}
+          />
+        </Content>
       </Card>
     </Layout>
   );
 }
+
+const Content = styled.div`
+  .ant-list-item-meta-description {
+    text-overflow: ellipsis;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+`;
 
 export default DocBlockchain;

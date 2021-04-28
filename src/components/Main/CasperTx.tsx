@@ -13,7 +13,7 @@ function CasperTx({ txHash }: IProps) {
       href={`https://clarity.make.services/#/deploys/${txHash}`}
       target="_blank"
     >
-      ${txHash}
+      {txHash}
     </Link>
   );
 }

@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { Layout, Typography, Card, Avatar, List } from "antd";
 import { getGravatarUrl } from "react-awesome-gravatar";
+import styled from "styled-components";
 
 import { DocumentHistory } from "../../types";
 import { formatDate } from "../../utils";
@@ -25,23 +26,29 @@ function DocHistory({ history }: IProps) {
 
       if (h.timestamp) {
         description.push(
-          <Text key="timestamp" type="secondary">
-            Timestamp: ${formatDate(h.timestamp)}
-          </Text>
+          <div>
+            <Text key="timestamp" type="secondary">
+              Timestamp: {formatDate(h.timestamp)}
+            </Text>
+          </div>
         );
       }
       if (h.ip) {
         description.push(
-          <Text key="ip" type="secondary">
-            IP: ${h.ip}
-          </Text>
+          <div>
+            <Text key="ip" type="secondary">
+              IP: {h.ip}
+            </Text>
+          </div>
         );
       }
       if (h.txHash) {
         description.push(
-          <Text key="tx" type="secondary">
-            Tx Hash: <CasperTx txHash={h.txHash} />
-          </Text>
+          <div>
+            <Text key="tx" type="secondary">
+              Tx Hash: <CasperTx txHash={h.txHash} />
+            </Text>
+          </div>
         );
       }
 
@@ -58,30 +65,41 @@ function DocHistory({ history }: IProps) {
   return (
     <Layout>
       <Card title="History">
-        <List
-          itemLayout="horizontal"
-          dataSource={items}
-          renderItem={(item) => (
-            <List.Item>
-              <List.Item.Meta
-                avatar={
-                  <Avatar
-                    size="large"
-                    src={getGravatarUrl(item.email, {
-                      default: "mp",
-                      size: 50,
-                    })}
-                  />
-                }
-                title={item.title}
-                description={item.description}
-              />
-            </List.Item>
-          )}
-        />
+        <Content>
+          <List
+            itemLayout="horizontal"
+            dataSource={items}
+            renderItem={(item) => (
+              <List.Item>
+                <List.Item.Meta
+                  avatar={
+                    <Avatar
+                      size="large"
+                      src={getGravatarUrl(item.email || "", {
+                        default: "mp",
+                        size: 50,
+                      })}
+                    />
+                  }
+                  title={item.title}
+                  description={item.description}
+                />
+              </List.Item>
+            )}
+          />
+        </Content>
       </Card>
     </Layout>
   );
 }
+
+const Content = styled.div`
+  .ant-list-item-meta-description {
+    text-overflow: ellipsis;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+`;
 
 export default DocHistory;

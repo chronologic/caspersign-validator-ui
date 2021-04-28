@@ -13,7 +13,7 @@ interface IProps {
 
 function Signer({ email, title, description, children }: IProps) {
   const gravatarUrl = useMemo(() => {
-    return getGravatarUrl(email, {
+    return getGravatarUrl(email || "", {
       default: "mp",
       size: 50,
     });
