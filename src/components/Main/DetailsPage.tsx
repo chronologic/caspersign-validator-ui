@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Layout, Row, Col, Typography } from "antd";
 
@@ -16,18 +16,6 @@ interface IProps {
 }
 
 function DetailsPage({ filename, doc }: IProps) {
-  const createdBy = useMemo(() => {
-    let creator = doc?.createdByEmail;
-    // eslint-disable-next-line no-restricted-syntax
-    for (const sig of doc?.signatures || []) {
-      if (sig.email === creator || sig.hs.email === creator) {
-        creator = sig.hs.name || sig.name || creator;
-        break;
-      }
-    }
-    return creator;
-  }, [doc]);
-
   return (
     <Layout>
       <Main>
@@ -36,7 +24,7 @@ function DetailsPage({ filename, doc }: IProps) {
         </HeaderTitle>
         <DocTitle
           filename={filename}
-          createdBy={createdBy}
+          createdBy={doc.createdByName || doc.createdByEmail}
           documentUid={doc.documentUid}
         />
         <Row gutter={24}>
