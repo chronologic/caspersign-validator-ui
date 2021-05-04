@@ -5,6 +5,7 @@ import { apiService } from "../../services";
 import { DocumentDetails } from "../../types";
 import DetailsPage from "./DetailsPage";
 import UploadPage from "./UploadPage";
+import DocFailed from "./DocFailed";
 
 function Main() {
   const [validating, setValidating] = useState(false);
@@ -45,7 +46,7 @@ function Main() {
   }, [handleUploadDone, queryHash]);
 
   if (validationDone && !valid) {
-    return <div>We could not verify the validity of this document.</div>;
+    return <DocFailed />;
   }
 
   if (validationDone && valid) {

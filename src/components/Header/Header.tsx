@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Layout, Space } from "antd";
+import logo from "../../img/logo.svg";
 
 import FlexSpacer from "../FlexSpacer";
 
@@ -9,7 +10,9 @@ function Header() {
     <Layout.Header>
       <HeaderContent>
         <Space>
-          <div />
+          <Logo>
+            <img src={logo} alt="logo" />
+          </Logo>
         </Space>
         <FlexSpacer />
       </HeaderContent>
@@ -17,12 +20,19 @@ function Header() {
   );
 }
 
+const Logo = styled.div`
+  width: 150px;
+`;
+
 const HeaderContent = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 100%;
-  line-height: normal;
+  width: 100%;
+  max-width: 1170px;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
 `;
 
 export default Header;
