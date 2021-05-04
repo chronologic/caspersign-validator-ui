@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 import { DocumentHistory } from "../../types";
 import { formatDate } from "../../utils";
-import CasperTx from "./CasperTx";
+import CasperTxCopyInput from "./CasperTxCopyInput";
 
 const { Text } = Typography;
 
@@ -46,10 +46,11 @@ function DocHistory({ history }: IProps) {
       }
       if (h.txHash) {
         description.push(
-          <div>
+          <div className="txContainer">
             <Text key="tx" type="secondary">
-              Tx Hash: <CasperTx txHash={h.txHash} />
+              Tx Hash:
             </Text>
+            <CasperTxCopyInput className="tx" txHash={h.txHash} />
           </div>
         );
       }
@@ -105,6 +106,20 @@ const Content = styled.div`
     width: 100%;
     white-space: nowrap;
     overflow: hidden;
+  }
+
+  .txContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .tx {
+    flex-grow: 1;
+    margin-left: 8px;
+  }
+  .casperTx {
+    width: 100%;
   }
 `;
 

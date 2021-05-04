@@ -5,7 +5,8 @@ import styled from "styled-components";
 
 import { SignatureDetails } from "../../types";
 import { formatDate } from "../../utils";
-import CasperTx from "./CasperTx";
+import CopyInput from "./CopyInput";
+import CasperTxCopyInput from "./CasperTxCopyInput";
 
 const { Text } = Typography;
 
@@ -65,21 +66,26 @@ function DocBlockchain({ originalHash, hashes, signatures }: IProps) {
       rows.push({
         id: 1,
         title: "Original Document Hash:",
-        description: originalHash,
+        description: <CopyInput className="hash" value={originalHash} />,
       });
     }
     if (lastDocHash) {
       rows.push({
         id: 2,
         title: "Signed Document Hash:",
-        description: lastDocHash,
+        description: <CopyInput className="hash" value={lastDocHash} />,
       });
     }
     if (lastBlockchainSignature) {
       rows.push({
         id: 3,
         title: "Blockchain Hash:",
-        description: <CasperTx txHash={lastBlockchainSignature.txHash} />,
+        description: (
+          <CasperTxCopyInput
+            className="tx"
+            txHash={lastBlockchainSignature.txHash}
+          />
+        ),
       });
     }
 
@@ -117,6 +123,12 @@ const Content = styled.div`
     width: 100%;
     white-space: nowrap;
     overflow: hidden;
+  }
+
+  .casperTx,
+  .tx,
+  .hash {
+    width: 100%;
   }
 `;
 
