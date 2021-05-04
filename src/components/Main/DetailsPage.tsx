@@ -7,6 +7,7 @@ import DocHistory from "./DocHistory";
 import DocSigners from "./DocSigners";
 import DocBlockchain from "./DocBlockchain";
 import DocTitle from "./DocTitle";
+import DateInfo from "./DateInfo";
 
 const { Title } = Typography;
 
@@ -38,6 +39,7 @@ function DetailsPage({ filename, doc }: IProps) {
               hashes={doc.hashes}
               signatures={doc.signatures}
             />
+            <DateInfo />
           </Col>
         </Row>
       </Main>
