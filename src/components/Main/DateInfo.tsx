@@ -4,11 +4,13 @@ import { Typography } from "antd";
 
 const { Text } = Typography;
 
+const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
 function DateInfo() {
   return (
     <Content>
       <Text className="dateInfo">
-        All dates on this page are shown in your local timezone.
+        All dates on this page are shown in your local timezone ({tz}).
       </Text>
     </Content>
   );
