@@ -27,7 +27,7 @@ function DocBlockchain({ originalHash, hashes, signatures }: IProps) {
     const lastHistoryItem = signatures
       .filter((s) => !!s.txHash && !!s.signedAt)
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      .sort((a, b) => a.signedAt!.localeCompare(b.signedAt!))[0];
+      .sort((a, b) => b.signedAt!.localeCompare(a.signedAt!))[0];
 
     return lastHistoryItem;
   }, [signatures]);
