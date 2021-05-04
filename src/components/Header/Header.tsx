@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 import { Layout, Space } from "antd";
 import logo from "../../img/logo.svg";
@@ -6,11 +6,15 @@ import logo from "../../img/logo.svg";
 import FlexSpacer from "../FlexSpacer";
 
 function Header() {
+  const handleClick = useCallback(() => {
+    window.location.href = window.location.origin;
+  }, []);
+
   return (
     <Layout.Header>
       <HeaderContent>
         <Space>
-          <Logo>
+          <Logo onClick={handleClick}>
             <img src={logo} alt="logo" />
           </Logo>
         </Space>
@@ -22,6 +26,7 @@ function Header() {
 
 const Logo = styled.div`
   width: 150px;
+  cursor: pointer;
 `;
 
 const HeaderContent = styled.div`
