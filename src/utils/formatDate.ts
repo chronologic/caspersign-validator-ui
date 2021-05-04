@@ -12,9 +12,3 @@ export function formatDate(
     timeZone,
   }).format(new Date(date));
 }
-
-export function getLocalTimeZone(): string {
-  const dtf = new Intl.DateTimeFormat();
-
-  return dtf.resolvedOptions().timeZone;
-}
