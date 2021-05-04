@@ -33,7 +33,11 @@ function DetailsPage({ filename, doc }: IProps) {
             <DocHistory history={doc.history} />
           </Col>
           <Col flex={2}>
-            <DocBlockchain hashes={doc.hashes} signatures={doc.signatures} />
+            <DocBlockchain
+              originalHash={doc.originalHash}
+              hashes={doc.hashes}
+              signatures={doc.signatures}
+            />
           </Col>
         </Row>
       </Main>

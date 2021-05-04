@@ -17,6 +17,7 @@ export interface DocumentSummary {
   title: string;
   status: DocumentStatus;
   createdAt: string;
+  originalHash: string;
   signatures: SignatureSummary[];
 }
 

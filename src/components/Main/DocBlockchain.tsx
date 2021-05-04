@@ -14,11 +14,12 @@ interface IRow {
 }
 
 interface IProps {
+  originalHash: string;
   hashes: string[];
   signatures: SignatureDetails[];
 }
 
-function DocBlockchain({ hashes, signatures }: IProps) {
+function DocBlockchain({ originalHash, hashes, signatures }: IProps) {
   const lastBlockchainSignature = useMemo(() => {
     const lastHistoryItem = signatures
       .filter((s) => !!s.txHash)
@@ -26,16 +27,9 @@ function DocBlockchain({ hashes, signatures }: IProps) {
 
     return lastHistoryItem;
   }, [signatures]);
-  const firstDocHash = useMemo(() => {
-    return hashes[0] || "";
-  }, [hashes]);
   const lastDocHash = useMemo(() => {
-    const last = hashes.reverse()[0] || "";
-    if (firstDocHash === last) {
-      return "";
-    }
-    return last;
-  }, [hashes, firstDocHash]);
+    return hashes.reverse()[0] || "";
+  }, [hashes]);
   const verifiedTag = useMemo(() => {
     if (lastBlockchainSignature) {
       return (
@@ -64,10 +58,10 @@ function DocBlockchain({ hashes, signatures }: IProps) {
 
   const items: IRow[] = useMemo(() => {
     const rows: IRow[] = [];
-    if (firstDocHash) {
+    if (originalHash) {
       rows.push({
         title: "Original Document Hash:",
-        description: firstDocHash,
+        description: originalHash,
       });
     }
     if (lastDocHash) {
@@ -84,7 +78,7 @@ function DocBlockchain({ hashes, signatures }: IProps) {
     }
 
     return rows;
-  }, [lastBlockchainSignature, firstDocHash, lastDocHash]);
+  }, [lastBlockchainSignature, lastDocHash, originalHash]);
 
   return (
     <Layout>
