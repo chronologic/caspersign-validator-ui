@@ -20,6 +20,7 @@ const Style = createGlobalStyle`
     background: white;
     box-shadow: 0 1px 4px rgb(0 0 0 / 12%);
     position: relative;
+    padding: 0;
   }
   .ant-layout-footer {
     padding: 0 24px 12px;
