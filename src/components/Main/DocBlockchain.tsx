@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 import { SignatureDetails } from "../../types";
 import { formatDate } from "../../utils";
+import CasperTx from "./CasperTx";
 
 const { Text } = Typography;
 
@@ -73,7 +74,7 @@ function DocBlockchain({ originalHash, hashes, signatures }: IProps) {
     if (lastBlockchainSignature) {
       rows.push({
         title: "Blockchain Hash:",
-        description: lastBlockchainSignature.txHash,
+        description: <CasperTx txHash={lastBlockchainSignature.txHash} />,
       });
     }
 
