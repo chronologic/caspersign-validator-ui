@@ -10,8 +10,10 @@ import CasperTx from "./CasperTx";
 const { Text } = Typography;
 
 interface IHistoryRow {
+  id: number;
   title: string;
   email: string;
+  recipientEmail: string;
   description: React.ReactNode;
 }
 
@@ -21,7 +23,7 @@ interface IProps {
 
 function DocHistory({ history }: IProps) {
   const items: IHistoryRow[] = useMemo(() => {
-    return history.map((h) => {
+    return history.map((h, i) => {
       const description = [];
 
       if (h.timestamp) {
@@ -53,8 +55,10 @@ function DocHistory({ history }: IProps) {
       }
 
       const item: IHistoryRow = {
+        id: i,
         title: h.description,
         email: h.email,
+        recipientEmail: h.recipientEmail,
         description,
       };
 
@@ -69,13 +73,15 @@ function DocHistory({ history }: IProps) {
           <List
             itemLayout="horizontal"
             dataSource={items}
+            rowKey="id"
             renderItem={(item) => (
-              <List.Item>
+              <List.Item key={item.id}>
                 <List.Item.Meta
+                  key={item.id}
                   avatar={
                     <Avatar
                       size="large"
-                      src={getGravatarUrl(item.email || "", {
+                      src={getGravatarUrl(item.recipientEmail || "", {
                         default: "mp",
                         size: 50,
                       })}

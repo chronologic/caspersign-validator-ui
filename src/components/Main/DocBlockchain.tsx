@@ -10,6 +10,7 @@ import CasperTx from "./CasperTx";
 const { Text } = Typography;
 
 interface IRow {
+  id: number;
   title: string;
   description: React.ReactNode;
 }
@@ -23,8 +24,9 @@ interface IProps {
 function DocBlockchain({ originalHash, hashes, signatures }: IProps) {
   const lastBlockchainSignature = useMemo(() => {
     const lastHistoryItem = signatures
-      .filter((s) => !!s.txHash)
-      .sort((a, b) => a.signedAt.localeCompare(b.signedAt))[0];
+      .filter((s) => !!s.txHash && !!s.signedAt)
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      .sort((a, b) => a.signedAt!.localeCompare(b.signedAt!))[0];
 
     return lastHistoryItem;
   }, [signatures]);
@@ -46,7 +48,7 @@ function DocBlockchain({ originalHash, hashes, signatures }: IProps) {
     );
   }, [lastBlockchainSignature]);
   const footer = useMemo(() => {
-    if (lastBlockchainSignature) {
+    if (lastBlockchainSignature && lastBlockchainSignature.signedAt) {
       return (
         <Text type="secondary">
           Timestamped on Blockchain:{" "}
@@ -61,18 +63,21 @@ function DocBlockchain({ originalHash, hashes, signatures }: IProps) {
     const rows: IRow[] = [];
     if (originalHash) {
       rows.push({
+        id: 1,
         title: "Original Document Hash:",
         description: originalHash,
       });
     }
     if (lastDocHash) {
       rows.push({
+        id: 2,
         title: "Signed Document Hash:",
         description: lastDocHash,
       });
     }
     if (lastBlockchainSignature) {
       rows.push({
+        id: 3,
         title: "Blockchain Hash:",
         description: <CasperTx txHash={lastBlockchainSignature.txHash} />,
       });
@@ -88,9 +93,11 @@ function DocBlockchain({ originalHash, hashes, signatures }: IProps) {
           <List
             itemLayout="horizontal"
             dataSource={items}
+            rowKey="id"
             renderItem={(item) => (
-              <List.Item>
+              <List.Item key={item.id}>
                 <List.Item.Meta
+                  key={item.id}
                   title={item.title}
                   description={item.description}
                 />

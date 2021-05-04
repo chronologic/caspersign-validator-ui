@@ -19,7 +19,7 @@ function DocSigners({ signatures }: IProps) {
     const isHsSigned = sig.hs.statusCode === "signed";
     const signerRole = sig.hs.isOwner ? "Creator" : "Signer";
     const signer = `${sig.hs.name} (${signerRole})`;
-    const email = sig.hs.email || sig.email;
+    const email = sig.recipientEmail;
 
     return (
       <Timeline.Item
