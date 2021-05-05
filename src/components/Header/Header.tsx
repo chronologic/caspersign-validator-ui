@@ -1,8 +1,8 @@
 import React, { useCallback } from "react";
 import styled from "styled-components";
 import { Layout, Space } from "antd";
-import logo from "../../img/logo.svg";
 
+import logo from "../../img/logo.svg";
 import FlexSpacer from "../FlexSpacer";
 
 function Header() {
