@@ -92,17 +92,4 @@ function deleteCookie(name: string): void {
   document.cookie = `${name}=; Max-Age=0; path=/; domain=${domain}`;
 }
 
-function setCookie(name: string): void {
-  let domain = window.location.host;
-
-  const domainParts = domain.split(".");
-  if (domainParts.length > 2) {
-    domain = domainParts.slice(1).join(".");
-  } else if (domainParts.length === 1) {
-    domain = "";
-  }
-
-  document.cookie = `${name}=; path=/; domain=${domain}`;
-}
-
 export default DetailsPage;
