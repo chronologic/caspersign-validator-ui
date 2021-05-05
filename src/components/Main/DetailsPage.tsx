@@ -25,7 +25,8 @@ function DetailsPage({ filename, doc }: IProps) {
         </HeaderTitle>
         <DocTitle
           filename={filename}
-          createdBy={doc.createdByName || doc.createdByEmail}
+          createdByName={doc.createdByName}
+          createdByEmail={doc.createdByEmail}
           documentUid={doc.documentUid}
         />
         <Row gutter={24}>

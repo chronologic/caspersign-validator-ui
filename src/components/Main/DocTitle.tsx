@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Layout, Card, Typography, Divider } from "antd";
 import styled from "styled-components";
 import pdf from "../../img/pdf.svg";
@@ -7,11 +7,21 @@ const { Title, Text } = Typography;
 
 interface IProps {
   filename: string;
-  createdBy: string;
+  createdByName: string;
+  createdByEmail: string;
   documentUid: string;
 }
 
-function DocTitle({ filename, createdBy, documentUid }: IProps) {
+function DocTitle({
+  filename,
+  createdByName,
+  createdByEmail,
+  documentUid,
+}: IProps) {
+  const createdBy = createdByName
+    ? `${createdByName} (${createdByEmail})`
+    : `${createdByEmail}`;
+
   return (
     <Layout>
       <Card>
