@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
 import { Layout, Row, Col, Typography } from "antd";
 
 import { DocumentDetails } from "../../types";
+import { PostSignContext } from "../../contexts";
 import DocHistory from "./DocHistory";
 import DocSigners from "./DocSigners";
 import DocBlockchain from "./DocBlockchain";
@@ -16,7 +17,20 @@ interface IProps {
   doc: DocumentDetails;
 }
 
+const POST_SIGN_COOKIE_NAME = "postSign";
+
 function DetailsPage({ filename, doc }: IProps) {
+  const { setShow } = useContext(PostSignContext);
+
+  useEffect(() => {
+    const shouldShow = !!getCookieValue(POST_SIGN_COOKIE_NAME);
+
+    if (shouldShow) {
+      setShow(true);
+      deleteCookie(POST_SIGN_COOKIE_NAME);
+    }
+  }, [setShow]);
+
   return (
     <Layout>
       <Main>
@@ -60,5 +74,35 @@ const Main = styled.div`
 const HeaderTitle = styled.div`
   margin: 64px 0 12px;
 `;
+
+function getCookieValue(name: string): string {
+  return document.cookie.match(`(^|;)\\s*${name}\\s*=\\s*([^;]+)`)?.pop() || "";
+}
+
+function deleteCookie(name: string): void {
+  let domain = window.location.host;
+
+  const domainParts = domain.split(".");
+  if (domainParts.length > 2) {
+    domain = domainParts.slice(1).join(".");
+  } else if (domainParts.length === 1) {
+    domain = "";
+  }
+
+  document.cookie = `${name}=; Max-Age=0; path=/; domain=${domain}`;
+}
+
+function setCookie(name: string): void {
+  let domain = window.location.host;
+
+  const domainParts = domain.split(".");
+  if (domainParts.length > 2) {
+    domain = domainParts.slice(1).join(".");
+  } else if (domainParts.length === 1) {
+    domain = "";
+  }
+
+  document.cookie = `${name}=; path=/; domain=${domain}`;
+}
 
 export default DetailsPage;

@@ -2,7 +2,7 @@ import React from "react";
 import { UseWalletProvider } from "use-wallet";
 import { QueryParamProvider } from "use-query-params";
 
-import { EthersProvider } from "../../contexts";
+import { EthersProvider, PostSignProvider } from "../../contexts";
 import { CHAIN_ID, RPC_URL } from "../../env";
 
 interface IProps {
@@ -20,7 +20,9 @@ const Providers = ({ children }: IProps) => (
     }}
   >
     <EthersProvider>
-      <QueryParamProvider>{children}</QueryParamProvider>
+      <QueryParamProvider>
+        <PostSignProvider>{children}</PostSignProvider>
+      </QueryParamProvider>
     </EthersProvider>
   </UseWalletProvider>
 );
