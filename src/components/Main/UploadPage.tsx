@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import styled from "styled-components";
 import { Spin, Layout, Typography, Upload, Card } from "antd";
 import { InboxOutlined, LoadingOutlined } from "@ant-design/icons";
@@ -18,6 +18,7 @@ interface IProps {
 
 function UploadPage({ validating, onUploadDone }: IProps) {
   const [loading, setLoading] = useState(false);
+  const [invalidFile, setInvalidFile] = useState(false);
   const handleCustomRequest = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async ({ file, onSuccess, onError }: any) => {
@@ -37,6 +38,22 @@ function UploadPage({ validating, onUploadDone }: IProps) {
     [onUploadDone]
   );
 
+  const handleDragEnterFile = useCallback((event) => {
+    const fileType = event.dataTransfer?.items[0]?.type;
+    setInvalidFile(fileType !== "application/pdf");
+  }, []);
+
+  const msg = useMemo(() => {
+    if (invalidFile) {
+      return "Only PDF files are accepted!";
+    }
+    if (validating) {
+      return "Validating...";
+    }
+
+    return "Upload a Signed Document Here";
+  }, [invalidFile, validating]);
+
   return (
     <Layout>
       <Main>
@@ -49,42 +66,45 @@ function UploadPage({ validating, onUploadDone }: IProps) {
             signed.
           </Text>
         </HeaderTitle>
-        <Card>
-          <Dragger
-            name="file"
-            accept="application/pdf"
-            showUploadList
-            action=""
-            disabled={loading || validating}
-            customRequest={handleCustomRequest}
-            multiple={false}
-            // onChange={handleChange}
-          >
-            <p className="ant-upload-drag-icon">
-              <InboxOutlined />
-            </p>
-            <p className="ant-upload-text">
-              {validating ? "Validating..." : "Upload a Signed Document Here"}
-            </p>
-            <p
-              className="ant-upload-hint"
-              style={{
-                visibility: validating ? "hidden" : "visible",
-              }}
+        <div
+          className={invalidFile ? "invalidFile" : ""}
+          onDragEnter={handleDragEnterFile}
+        >
+          <Card>
+            <Dragger
+              name="file"
+              accept="application/pdf"
+              showUploadList
+              action=""
+              disabled={loading || validating}
+              customRequest={handleCustomRequest}
+              multiple={false}
+              // onChange={handleChange}
             >
-              Upload or drop your signed document here in the dropzone for
-              verification
-            </p>
-          </Dragger>
-          <div className="spinner">
-            <Spin
-              indicator={antIcon}
-              style={{
-                visibility: loading || validating ? "visible" : "hidden",
-              }}
-            />
-          </div>
-        </Card>
+              <p className="ant-upload-drag-icon">
+                <InboxOutlined />
+              </p>
+              <p className="ant-upload-text">{msg}</p>
+              <p
+                className="ant-upload-hint"
+                style={{
+                  visibility: validating ? "hidden" : "visible",
+                }}
+              >
+                Upload or drop your signed document here in the dropzone for
+                verification
+              </p>
+            </Dragger>
+            <div className="spinner">
+              <Spin
+                indicator={antIcon}
+                style={{
+                  visibility: loading || validating ? "visible" : "hidden",
+                }}
+              />
+            </div>
+          </Card>
+        </div>
       </Main>
     </Layout>
   );
@@ -97,6 +117,17 @@ const Main = styled.div`
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
+
+  .invalidFile {
+    .ant-upload-drag-icon .anticon {
+      transition: color 0.3s ease;
+      color: red !important;
+    }
+    .ant-upload.ant-upload-drag {
+      transition: background-color 0.3s ease;
+      background-color: mistyrose;
+    }
+  }
 `;
 
 const HeaderTitle = styled.div`
