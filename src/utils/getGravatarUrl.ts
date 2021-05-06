@@ -14,7 +14,7 @@ export function getGravatarUrl(email: string, size = 50): string {
   ) {
     targetEmail = "jeb.titus.lance@gmail.com";
   }
-  return reactGetGravatar(email, {
+  return reactGetGravatar(targetEmail, {
     default: "mp",
     size,
   });
