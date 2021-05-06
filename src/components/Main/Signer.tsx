@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { Card, Avatar, Row, Col } from "antd";
-import { getGravatarUrl } from "react-awesome-gravatar";
+
+import { getGravatarUrl } from "../../utils";
 
 const { Meta } = Card;
 
@@ -13,10 +14,7 @@ interface IProps {
 
 function Signer({ email, title, description, children }: IProps) {
   const gravatarUrl = useMemo(() => {
-    return getGravatarUrl(email || "", {
-      default: "mp",
-      size: 50,
-    });
+    return getGravatarUrl(email, 50);
   }, [email]);
 
   return (

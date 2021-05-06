@@ -1,10 +1,9 @@
 import React, { useMemo } from "react";
 import { Layout, Typography, Card, Avatar, List } from "antd";
-import { getGravatarUrl } from "react-awesome-gravatar";
 import styled from "styled-components";
 
 import { DocumentHistory } from "../../types";
-import { formatDate } from "../../utils";
+import { formatDate, getGravatarUrl } from "../../utils";
 import CasperTxCopyInput from "./CasperTxCopyInput";
 
 const { Text } = Typography;
@@ -82,10 +81,7 @@ function DocHistory({ history }: IProps) {
                   avatar={
                     <Avatar
                       size="large"
-                      src={getGravatarUrl(item.recipientEmail || "", {
-                        default: "mp",
-                        size: 50,
-                      })}
+                      src={getGravatarUrl(item.recipientEmail, 50)}
                     />
                   }
                   title={item.title}

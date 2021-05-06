@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { Layout, Card, Typography, Divider } from "antd";
 import styled from "styled-components";
 import pdf from "../../img/pdf.svg";
