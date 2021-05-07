@@ -1,20 +1,19 @@
 import { getGravatarUrl as reactGetGravatar } from "react-awesome-gravatar";
 
 export function getGravatarUrl(email: string, size = 50): string {
-  let targetEmail = email || "";
   if (
-    targetEmail === "mrinal.manohar@casperlabs.io" ||
-    targetEmail === "mrinal@casperlabs.io"
+    email === "mrinal.manohar@casperlabs.io" ||
+    email === "mrinal@casperlabs.io"
   ) {
-    targetEmail = "senecio666@gmail.com";
+    return "https://www.gravatar.com/avatar/1cb3d95eeec0743f408536328f804901?default=mp&size=50";
   }
   if (
-    targetEmail === "cliff.sarkin@casperlabs.io" ||
-    targetEmail === "cliff@casperlabs.io"
+    email === "cliff.sarkin@casperlabs.io" ||
+    email === "cliff@casperlabs.io"
   ) {
-    targetEmail = "jeb.titus.lance@gmail.com";
+    return "https://www.gravatar.com/avatar/f83b1e2ae4b1f08c723020066202ad32?default=mp&size=50";
   }
-  return reactGetGravatar(targetEmail, {
+  return reactGetGravatar(email || "", {
     default: "mp",
     size,
   });
