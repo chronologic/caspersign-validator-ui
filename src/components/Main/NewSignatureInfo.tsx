@@ -24,8 +24,9 @@ export default function NewSignatureInfo({ signedAt, className }: IProps) {
 
   return (
     <Content className={className}>
-      <InfoCircleOutlined /> Please allow up to 5 minutes for the transaction to
-      appear on the blockchain explorer
+      <InfoCircleOutlined />
+      The transaction may take up to 5 minutes to appear on the blockchain
+      explorer
     </Content>
   );
 }
