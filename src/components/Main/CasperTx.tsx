@@ -9,10 +9,7 @@ interface IProps {
 
 function CasperTx({ txHash }: IProps) {
   return (
-    <Link
-      href={`https://clarity.make.services/#/deploys/${txHash}`}
-      target="_blank"
-    >
+    <Link href={`https://cspr.live/deploy/${txHash}`} target="_blank">
       {txHash}
     </Link>
   );

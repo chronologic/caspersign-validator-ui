@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useMemo } from "react";
 import { Layout, Typography, Card, Avatar, List } from "antd";
 import styled from "styled-components";
@@ -5,6 +6,7 @@ import styled from "styled-components";
 import { DocumentHistory } from "../../types";
 import { formatDate, getGravatarUrl } from "../../utils";
 import CasperTxCopyInput from "./CasperTxCopyInput";
+import NewSignatureInfo from "./NewSignatureInfo";
 
 const { Text } = Typography;
 
@@ -45,12 +47,15 @@ function DocHistory({ history }: IProps) {
       }
       if (h.txHash) {
         description.push(
-          <div className="txContainer">
-            <Text key="tx" type="secondary">
-              Tx Hash:
-            </Text>
-            <CasperTxCopyInput className="tx" txHash={h.txHash} />
-          </div>
+          <>
+            <div className="txContainer">
+              <Text key="tx" type="secondary">
+                Tx Hash:
+              </Text>
+              <CasperTxCopyInput className="tx" txHash={h.txHash} />
+            </div>
+            <NewSignatureInfo signedAt={h.timestamp!} />
+          </>
         );
       }
 

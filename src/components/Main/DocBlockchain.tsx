@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useMemo } from "react";
 import { Layout, Typography, Card, Tag, List } from "antd";
 import { CheckCircleOutlined, WarningOutlined } from "@ant-design/icons";
@@ -7,6 +8,7 @@ import { SignatureDetails } from "../../types";
 import { formatDate } from "../../utils";
 import CopyInput from "./CopyInput";
 import CasperTxCopyInput from "./CasperTxCopyInput";
+import NewSignatureInfo from "./NewSignatureInfo";
 
 const { Text } = Typography;
 
@@ -81,10 +83,13 @@ function DocBlockchain({ originalHash, hashes, signatures }: IProps) {
         id: 3,
         title: "Blockchain Hash:",
         description: (
-          <CasperTxCopyInput
-            className="tx"
-            txHash={lastBlockchainSignature.txHash}
-          />
+          <>
+            <CasperTxCopyInput
+              className="tx"
+              txHash={lastBlockchainSignature.txHash}
+            />
+            <NewSignatureInfo signedAt={lastBlockchainSignature.signedAt!} />
+          </>
         ),
       });
     }
