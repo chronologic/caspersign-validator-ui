@@ -4,6 +4,7 @@ import { Spin, Layout, Typography, Upload, Card } from "antd";
 import { InboxOutlined, LoadingOutlined } from "@ant-design/icons";
 
 import { skyblue } from "../colors";
+import DemoFile from "./DemoFile";
 
 const { Title, Text } = Typography;
 const { Dragger } = Upload;
@@ -106,6 +107,9 @@ function UploadPage({ validating, onUploadDone }: IProps) {
           </Card>
         </div>
       </Main>
+      <Demo>
+        <DemoFile />
+      </Demo>
     </Layout>
   );
 }
@@ -133,6 +137,8 @@ const Main = styled.div`
 const HeaderTitle = styled.div`
   margin: 64px 0 12px;
 `;
+
+const Demo = styled.div``;
 
 async function sha256(file: File): Promise<string> {
   const buffer = await file2Buffer(file);
