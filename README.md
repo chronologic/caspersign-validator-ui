@@ -24,11 +24,11 @@ Transactions are verifiable on the blockchain: https://cspr.live/deploy/9e764974
 
 The CasperSign project consists of the following repositories:
 
-https://github.com/chronologic/caspersign-app-ui
-https://github.com/chronologic/caspersign-validator-ui (this repository)
-https://github.com/chronologic/caspersign-signer-ui
-https://github.com/chronologic/caspersign-server
-https://github.com/chronologic/caspersign-contract
+- https://github.com/chronologic/caspersign-app-ui
+- https://github.com/chronologic/caspersign-validator-ui (this repository)
+- https://github.com/chronologic/caspersign-signer-ui
+- https://github.com/chronologic/caspersign-server
+- https://github.com/chronologic/caspersign-contract
 
 ## 🔧 Environment variables
 
